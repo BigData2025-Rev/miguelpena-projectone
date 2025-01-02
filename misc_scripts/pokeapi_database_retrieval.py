@@ -3,18 +3,24 @@ from tqdm import tqdm
 import requests
 import json
 
+"""
+    This script was created specifically to retrieve item information using the PokeApi.
+    The initial database is then created from the resulting .json file.
+"""
+
 #dependencies:
 #pip install tqdm
 #pip install pandas
 
-
+API_URL = "https://pokeapi.co/api/v2/item/"
+OK_STATUS_CODE = 200
 ITEM_LIMIT = 2229
+OUPUT_FILENAME = "data/initial_inventory.json"
 
 def retrieve_item_details(item_id: int) -> any:
-    api_url = "https://pokeapi.co/api/v2/item/"
-    result = api_url + str(item_id)
+    result = API_URL + str(item_id)
     response_api = requests.get(result)
-    if response_api.status_code != 200:
+    if response_api.status_code != OK_STATUS_CODE:
         return None
     # print(response_api.status_code)
     data = response_api.text
@@ -59,8 +65,7 @@ def clean_item_details(parsed_data: any) -> any:
     return cleaned_item
 
 def save_inventory(inventory: any) -> None:
-    filename = 'initial_inventory.json'
-    inventory.to_json(filename, orient='records', indent=4)
+    inventory.to_json(OUPUT_FILENAME, orient='records', indent=4)
 
 def main():
     inventory_set = False
