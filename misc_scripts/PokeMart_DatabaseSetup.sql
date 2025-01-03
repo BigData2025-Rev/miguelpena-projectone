@@ -4,8 +4,8 @@ USE PokeMart;
 
 
 DROP TABLE IF EXISTS Orders;
-DROP TABLE IF EXISTS Item_Categories;
 DROP TABLE IF EXISTS Items;
+DROP TABLE IF EXISTS Item_Categories;
 DROP TABLE IF EXISTS Balances;
 DROP TABLE IF EXISTS Accounts;
 
@@ -43,6 +43,6 @@ CREATE TABLE Orders(
     order_item_id INT,
     order_qty INT,
     FOREIGN KEY (order_item_id) REFERENCES Items (item_id) ON DELETE CASCADE
-)
+);
 
-
+SELECT * FROM item_categories;
