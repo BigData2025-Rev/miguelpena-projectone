@@ -4,7 +4,7 @@ import pandas as pd
 import json
 import mysql.connector 
 from pymongo import MongoClient
-
+from config import *
 """
     This script was created specifically for setting up the PokeMart database. 
     NOTE: Run this script AFTER the pokeapi database retrieval script.
@@ -20,9 +20,9 @@ EXCLUDED_CATEGORIES = ['Flutes', 'Collectibles', 'Loot', 'Mulch',
                        'Tera Shard', 'Sandwich Ingredients', 'Tm Materials',
                        'Picnic', 'Plot Advancement']
 
-MYSQL_USER = os.getenv('MYSQL_USER')
-MYSQL_PASS = os.getenv('MYSQL_PASS')
-MONGODB_CLIENT = os.getenv('MONGODB_CLIENT')
+# MYSQL_USER = os.getenv('MYSQL_USER')
+# MYSQL_PASS = os.getenv('MYSQL_PASS')
+# MONGODB_CLIENT = os.getenv('MONGODB_CLIENT')
 
 def load_data():
     data = pd.read_json(INPUT_FILENAME)
