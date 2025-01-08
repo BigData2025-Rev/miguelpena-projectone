@@ -2,25 +2,32 @@
 -- CREATE DATABASE PokeMart;
 USE PokeMart;
 
-
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS Items;
 DROP TABLE IF EXISTS Item_Categories;
 DROP TABLE IF EXISTS Balances;
 DROP TABLE IF EXISTS Accounts;
+DROP TABLE IF EXISTS Account_Details;
+
+CREATE TABLE Account_Details(
+	account_details_id INT PRIMARY KEY AUTO_INCREMENT,
+    account_first_name VARCHAR(255),
+    account_last_name VARCHAR(255),
+    account_age INT
+);
 
 CREATE TABLE Accounts(
 	account_id INT PRIMARY KEY AUTO_INCREMENT,
     account_username VARCHAR(255) UNIQUE NOT NULL,
     account_password VARCHAR(255) NOT NULL,
-    account_first_name VARCHAR(255),
-    account_last_name VARCHAR(255)
+    account_details_id INT NOT NULL,
+    FOREIGN KEY (account_info_id) REFERENCES account_details (account_details_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Balances(
 	balance_id INT PRIMARY KEY AUTO_INCREMENT,
-    balance_owner INT,
-    balance_amount INT,
+    balance_owner INT NOT NULL,
+    balance_amount INT NOT NULL,
     FOREIGN KEY (balance_owner) REFERENCES Accounts (account_id) ON DELETE CASCADE 
 );
 

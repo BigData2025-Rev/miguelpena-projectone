@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from extensions import db
 
-class User(db.Model):
+class Account(db.Model):
     """
         This is the relational model for the user object, 
         should handle database operations with SQLAlchemy's simplified query system, 
@@ -18,11 +18,11 @@ class User(db.Model):
     id: int
     username: str
     password: str
-    # user_detail_id: int
+    # account_detail_id: int
 
-    __tablename__ = 'users'
+    __tablename__ = 'accounts'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String, unique=True, nullable=False)
-    password = db.Column(db.String)
-    # user_detail_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(255), unique=True, nullable=False)
+    password = db.Column(db.String(255))
+    # account_detail_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
