@@ -16,3 +16,16 @@ if __name__ == '__main__':
         port=app.config.get('FLASK_RUN_PORT'),
         debug=app.config.get('FLASK_DEBUG')
     )
+
+"""
+    REMINDER:
+        - Remove migrate and its folders once the database is completed. 
+            It is only necessary for whenever you make changes to the database schema, 
+            and don't feel like reseeding the database.
+    
+
+    This is main entry point for the backend. Open a powershell, and run:
+    python app.py
+
+    The api should then run in the background.
+"""
