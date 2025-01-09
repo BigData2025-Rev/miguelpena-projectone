@@ -27,6 +27,8 @@ granting admin access to specific users...
 
 ## Tech Stack
 - Python
+    - Passlib -> For password hashing.
+        - pip install passlib
     - BCrypt Module -> For password hashing.
         - pip install bcrypt
     - Maskpass Module -> For password hiding.
@@ -49,6 +51,10 @@ granting admin access to specific users...
         - pip instal sqlalchemy
     - Flask SQLAlchemy -> simplified usage of SQLAlchemy with Flask
         - pip install -U Flask-SQLAlchemy
+    - Flask Marshmallow -> simplified validation for endpoints
+        - pip install flask-marshmallow
+    - Flask JWT Extended -> simplified authorization tokens
+        - pip install flask-jwt-extended
     - dotenv -> for loading .env files with environment variables.
         - pip install python-dotenv
 - Git (+ Github)
