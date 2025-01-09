@@ -48,8 +48,8 @@ class Role(db.Model):
     __tablename__ = 'roles'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(80), nullable=False)
-    slug = db.Column(db.String(80), nullable=False, unique=True)
+    name = db.Column(db.String(36), nullable=False)
+    slug = db.Column(db.String(36), nullable=False, unique=True)
 
     accounts = db.relationship("Account", secondary="account_roles", back_populates="roles", passive_deletes=True)
 

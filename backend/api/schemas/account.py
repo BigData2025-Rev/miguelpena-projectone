@@ -19,3 +19,12 @@ class AccountSchema(SQLAlchemyAutoSchema):
         model = Account
         load_instance = True
         exclude = ['id']
+
+class AccountCreateSchema(AccountSchema):
+    password = String(
+        required=True,
+        validate=[
+            validate.Regexp(r"^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$",
+                                error="The password needs to be at least 8 characters long, and include a lowercase, uppercase, number and special character.")
+        ]
+    )

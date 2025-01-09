@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 from dotenv import load_dotenv
 
@@ -12,3 +13,4 @@ MONGODB_CLIENT = os.environ.get('MONGODB_CLIENT')
 JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 JWT_TOKEN_LOCATION = ['headers']
 JWT_IDENTITY_CLAIM = 'account_id'
+JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=5)
