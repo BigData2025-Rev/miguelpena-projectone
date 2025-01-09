@@ -4,10 +4,11 @@ from flask_jwt_extended import jwt_required
 
 from api.schemas.account import AccountSchema
 from extensions import db
+from auth.decorators import auth_role
 from models.accounts import Account
 
 class AccountList(Resource):
-    method_decorators = [jwt_required()]
+    method_decorators = [auth_role('admin'), jwt_required()]
     def get(self):
         accounts = Account.query.all() #equivalent to running SELECT * FROM accounts;
         schema = AccountSchema(many=True)

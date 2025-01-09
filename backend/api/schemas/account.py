@@ -2,7 +2,7 @@ from marshmallow import validate, validates_schema, ValidationError
 from marshmallow.fields import String
 
 from extensions import ma
-from models.accounts import Account
+from models.accounts import Account, Account_Detail
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 class AccountSchema(SQLAlchemyAutoSchema):
@@ -28,3 +28,9 @@ class AccountCreateSchema(AccountSchema):
                                 error="The password needs to be at least 8 characters long, and include a lowercase, uppercase, number and special character.")
         ]
     )
+
+class AccountDetailSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Account_Detail
+        load_instance = True
+        exclude = ['id', 'account_id']

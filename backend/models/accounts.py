@@ -25,6 +25,15 @@ class Account(db.Model):
     balance = db.relationship('Balance', back_populates='account', uselist=False, passive_deletes=True)
     orders = db.relationship('Order', back_populates='account', lazy=True)
 
+    def has_role(self, role):
+        return bool(
+            Role.query
+            .join(Role.accounts)
+            .filter(Account.id == self.id)
+            .filter(Role.slug == role)
+            .count() == 1
+        )
+
     @hybrid_property
     def password(self):
         return self._password

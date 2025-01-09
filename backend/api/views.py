@@ -2,12 +2,14 @@ from flask import Blueprint, jsonify
 from flask_restful import Api
 from marshmallow import ValidationError
 
-from api.resources.account import AccountList
+from api.resources import *
 
 blueprint = Blueprint('api', __name__, url_prefix='/pokemart/')
 api = Api(blueprint, errors=blueprint.errorhandler)
 
 api.add_resource(AccountList, '/accounts/')
+api.add_resource(BalanceList, '/balances/')
+api.add_resource(BalanceResource, '/balances/<int:account_id>')
 # api.add_resource(AccountResource, '/accounts/<username>')
 
 """
