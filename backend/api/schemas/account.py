@@ -2,7 +2,7 @@ from marshmallow import validate, validates_schema, ValidationError
 from marshmallow.fields import String
 
 from extensions import ma
-from models.accounts import Account, Account_Detail
+from models.accounts import Account, AccountDetail, AccountRole, Role
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 class AccountSchema(SQLAlchemyAutoSchema):
@@ -31,6 +31,17 @@ class AccountCreateSchema(AccountSchema):
 
 class AccountDetailSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = Account_Detail
+        model = AccountDetail
         load_instance = True
         exclude = ['id', 'account_id']
+
+class RoleSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Role
+        load_instance = True
+        exclude = ['id']
+
+class AccountRoleSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = AccountRole
+        load_instance = True

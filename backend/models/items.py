@@ -7,10 +7,10 @@ class Item(db.Model):
     name = db.Column(db.String(255), nullable=False)
     cost = db.Column(db.Integer, nullable=False)
 
-    category = db.relationship('Item_Category', secondary="item_category_relational", back_populates="item", passive_deletes=True)
+    category = db.relationship('ItemCategory', secondary="item_category_relational", back_populates="item", passive_deletes=True)
     orders = db.relationship('Order', back_populates='item')
 
-class Item_Category(db.Model):
+class ItemCategory(db.Model):
     __tablename__ = 'item_categories'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -19,7 +19,7 @@ class Item_Category(db.Model):
 
     item = db.relationship('Item', secondary='item_category_relational', back_populates='category', passive_deletes=True)
 
-class Item_Category_Relational(db.Model):
+class ItemCategoryRelational(db.Model):
     __tablename__ = 'item_category_relational'
 
     item_id = db.Column(db.Integer, db.ForeignKey("items.id", ondelete="CASCADE"), primary_key=True)

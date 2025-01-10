@@ -1,18 +1,18 @@
 from models.auth import TokenBlockList
-from models.accounts import Account, Account_Detail, Role, AccountRole
+from models.accounts import Account, AccountDetail, Role, AccountRole
 from models.balances import Balance
-from models.items import Item, Item_Category, Item_Category_Relational
+from models.items import Item, ItemCategory, ItemCategoryRelational
 from models.orders import Order
 
 __all__ = [
     "Account",  
-    "Account_Detail", 
+    "AccountDetail", 
     "Role", 
     "AccountRole",
     "Balance",
     "Item",
-    "Item_Category", 
-    "Item_Category_Relational",
+    "ItemCategory", 
+    "ItemCategoryRelational",
     "Order",
     "TokenBlockList"
 ]

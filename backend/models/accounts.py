@@ -20,7 +20,7 @@ class Account(db.Model):
     username = db.Column(db.String(255), unique=True, nullable=False)
     _password = db.Column("password", db.String(255), nullable=False)
     
-    account_detail = db.relationship('Account_Detail', back_populates='account', uselist=False, passive_deletes=True)
+    account_detail = db.relationship('AccountDetail', back_populates='account', uselist=False, passive_deletes=True)
     roles = db.relationship('Role', secondary='account_roles', back_populates='accounts', passive_deletes=True)
     balance = db.relationship('Balance', back_populates='account', uselist=False, passive_deletes=True)
     orders = db.relationship('Order', back_populates='account', lazy=True)
@@ -42,7 +42,7 @@ class Account(db.Model):
     def password(self, value):
         self._password = pwd_context.hash(value)
 
-class Account_Detail(db.Model):
+class AccountDetail(db.Model):
     __tablename__ = 'account_details'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

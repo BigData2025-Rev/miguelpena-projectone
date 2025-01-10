@@ -14,6 +14,7 @@ class BalanceList(Resource):
         schema = BalanceSchema(many=True)
         return {'results': schema.dump(balances)}
     
+    method_decorators = [auth_role('user'), jwt_required()]
     def post(self):
         schema = BalanceSchema()
         validated_data = schema.load(request.json)
@@ -26,7 +27,7 @@ class BalanceList(Resource):
 
     
 class BalanceResource(Resource):
-    method_decorators = [auth_role('user'), jwt_required()]
+    method_decorators = [auth_role(['user', 'admin']), jwt_required()]
     def get(self, account_id):
         balance = Balance.query.filter_by(account_id=account_id).first() #equivalent to SELECT * FROM accounts WHERE accounts.username=? LIMIT 1; where ? is usually replaced with username in Spring.
         if balance is None:
@@ -36,6 +37,7 @@ class BalanceResource(Resource):
 
         return {'account': schema.dump(balance)}
     
+    method_decorators = [auth_role('user'), jwt_required()]
     def put(self, account_id):
         schema = BalanceSchema(partial=True)
         balance = Balance.query.filter_by(account_id=account_id).first()
@@ -46,12 +48,13 @@ class BalanceResource(Resource):
 
         return {'msg':'Balance Updated', 'balance': schema.dump(balance)}
     
-    def delete(self, username):
-        account = Account.query.filter_by(username=username).first()
-        if account is None:
-            return {'msg':'Account does not exist!'}
+    method_decorators = [auth_role('admin'), jwt_required()]
+    def delete(self, account_id):
+        balance = Balance.query.filter_by(account_id=account_id).first()
+        if balance is None:
+            return {'msg':'Balance does not exist!'}
         
-        db.session.delete(account) #triggers a DML query: DELETE FROM accounts WHERE accounts.username=?; Typically, NOTE: ondelete='CASCADE' property will maintain referential integrity.
+        db.session.delete(balance) #triggers a DML query: DELETE FROM balances WHERE balances.account_id=?; Typically, NOTE: ondelete='CASCADE' property will maintain referential integrity.
         db.session.commit()
 
-        return {'msg':'Account Deleted'}
+        return {'msg':'Balance Deleted'}
