@@ -1,11 +1,12 @@
 import os
 import pandas as pd
+import requests
 from interface.dataaccess_interfaces.data_interface import IData
 
 class DataHandler(IData):
-    def __init__(self, filename):
-        self.data = None
-        self.filename = f'data/{filename}'
+    # def __init__(self):
+    #     self.data = None
+    #     self.endpoint = ''
 
     def update_data(self, data: pd.DataFrame) -> pd.DataFrame:
         self.data = data

@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from api.schemas.balance import BalanceSchema
 from extensions import db
@@ -14,8 +14,9 @@ class BalanceList(Resource):
         schema = BalanceSchema(many=True)
         return {'results': schema.dump(balances)}
     
-    method_decorators = [auth_role('user'), jwt_required()]
+    method_decorators = [jwt_required()]
     def post(self):
+        account_id = get_jwt_identity()
         schema = BalanceSchema()
         validated_data = schema.load(request.json)
         balance = Balance(**validated_data)
