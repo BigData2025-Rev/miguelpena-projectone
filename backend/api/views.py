@@ -4,12 +4,12 @@ from marshmallow import ValidationError
 
 from api.resources import *
 
-blueprint = Blueprint('api', __name__, url_prefix='/pokemart/')
+blueprint = Blueprint('api', __name__, url_prefix='/pokemart')
 api = Api(blueprint, errors=blueprint.errorhandler)
 
-api.add_resource(AccountList, '/accounts/')
-api.add_resource(BalanceList, '/balances/')
-api.add_resource(BalanceResource, '/balances/<int:account_id>')
+api.add_resource(AccountList, '/accounts')
+api.add_resource(BalanceList, '/balance')
+
 # api.add_resource(AccountResource, '/accounts/<username>')
 
 """

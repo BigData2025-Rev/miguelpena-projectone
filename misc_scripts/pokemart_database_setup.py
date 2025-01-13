@@ -1,12 +1,10 @@
 import os
-import mysql.connector.cursor
 import pandas as pd
 import json
-import mysql.connector 
-from pymongo import MongoClient
-from config import *
+# from config import *
 """
-    This script was created specifically for setting up the PokeMart database. 
+    This script was created specifically for generating the seed.sql file that 
+    will be used in the seed.py file for seeding the database with PokeApi data. 
     NOTE: Run this script AFTER the pokeapi database retrieval script.
 """
 
@@ -34,38 +32,30 @@ def clean_data(data: pd.DataFrame) -> any:
     return data_without_empty_columns
 
 def generate_statement_for_categories(data: pd.DataFrame) -> str:
-    query = "INSERT INTO Item_Categories (cat_name) VALUES "
+    query = "INSERT INTO Item_Categories (name, slug) VALUES "
     columns = data['category'].unique().tolist()
     length = len(columns)
     for index, column in enumerate(columns):
-        query = query + f"(\'{column}\')"
+        query = query + f"(\'{column}\', \'{column.replace(' ', '-').lower()}\')"
         if index == length - 1:
-            query += ';'
+            query += ';\n'
         else:
-            query += ','
+            query += ',\n\t'
 
     return query
 
-def initialize_database(data: pd.DataFrame) -> None:
-    msql_connection = mysql.connector.connect(host='localhost', user=MYSQL_USER, password=MYSQL_PASS, database='pokemart')
-    msql_cursor = msql_connection.cursor()
-
+def create_seed_file(data: pd.DataFrame) -> None:
     queries = []
     queries.append(generate_statement_for_categories(data))
 
-    for query in queries:
-        msql_cursor.execute(query)
-        msql_connection.commit()
+    with open('backend/seed.sql', 'w') as file:
+        file.writelines(queries)
 
-    
-    
-    msql_cursor.close()
-    msql_connection.close()
 
 def main():
     raw_data = load_data()
     cleaned_data: pd.DataFrame = clean_data(raw_data)
-    initialize_database(cleaned_data)
+    create_seed_file(cleaned_data)
 
 
 

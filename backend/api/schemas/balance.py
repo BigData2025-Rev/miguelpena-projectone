@@ -1,7 +1,7 @@
 from marshmallow import validate, validates_schema, ValidationError
 from marshmallow.fields import Integer
 
-from extensions import ma
+from extensions import db
 from models.balances import Balance
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
@@ -10,6 +10,7 @@ class BalanceSchema(SQLAlchemyAutoSchema):
         model = Balance
         load_instance = True
         exclude = ['id', 'account_id']
+        sqla_session = db.session
 
 class BalanceCreateSchema(BalanceSchema):
     amount = Integer(

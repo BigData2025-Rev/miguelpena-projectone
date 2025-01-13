@@ -49,6 +49,8 @@ class AccountDetail(db.Model):
     first_name = db.Column(db.String(255), nullable=False)
     last_name = db.Column(db.String(255), nullable=False)
     age = db.Column(db.Integer)
+    favorite_pokemon = db.Column(db.String(64))
+    
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id', ondelete='CASCADE'), nullable=False, index=True)
     
     account = db.relationship('Account', back_populates='account_detail', uselist=False, passive_deletes=True)

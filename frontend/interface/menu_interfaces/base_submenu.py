@@ -4,6 +4,7 @@ from interface.menu_interfaces.submenu_interface import ISubMenu
 from implementation.utility_classes.input_validation import InputValidation
 from implementation.enum_classes.validation_type import ValidationType
 from implementation.enum_classes.submenu_state import SubMenuState
+from extensions import clear
 
 class BaseSubmenu(ISubMenu):
 
@@ -22,6 +23,7 @@ class BaseSubmenu(ISubMenu):
     def handle_input(self) -> tuple[bool, InputValidation | None]:
         input_valid = False
         user_input = input('\n>>>')
+        clear()
         valid_options = self.get_valid()
         validation = InputValidation(user_input, ValidationType.IsAMenuOption, valid_options=valid_options)
         try:

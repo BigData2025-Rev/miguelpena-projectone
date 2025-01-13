@@ -23,8 +23,9 @@ class InitialService(BaseSubmenu):
     def get_valid(self) -> str:
         return string.ascii_uppercase[:len(self.submenu_options)]
     
-    # def perform_selected_option(self):
-    #     return super().perform_selected_option()
+    def perform_selected_option(self):
+        pass
+        # return super().perform_selected_option()
     # def perform_selected_option(self):
     #     selected_index = string.ascii_lowercase.find(self.selected_option)
     #     listed_actions = [
