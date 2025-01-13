@@ -29,7 +29,7 @@ api.add_resource(ItemResource, '/store/<str:category>')
 
 api.add_resource(CreateOrderResource, '/store/checkout')
 api.add_resource(OrderList, '/history')
-
+api.add_resource(OrderResource, '/history/<int:order_id>') # DELETE only -> must refund
 api.add_resource(AdminOrderList, '/store/orders') #admin only -> GET
 
 @blueprint.errorhandler(ValidationError)
