@@ -56,7 +56,7 @@ def refresh():
         The refresh_token should be temporarily saved somewhere by the client, and before making a request to the api, it should access this endpoint and provide 
         the refresh_token, and then use the access_token immediately after to access any resource that the user has access to.
     """
-    account_id = get_jwt_identity
+    account_id = get_jwt_identity()
     access_token = create_access_token(identity=account_id)
     add_token_to_database(access_token)
     return {'access_token': access_token}, 200
