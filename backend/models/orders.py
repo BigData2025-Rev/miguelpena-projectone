@@ -15,7 +15,7 @@ class Order(TimeStampedModel):
     item_id = db.Column(db.Integer, db.ForeignKey('items.id', ondelete='CASCADE'), nullable=False, index=True)
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id', ondelete='CASCADE'), nullable=False, index=True)
     quantity = db.Column(db.Integer, nullable=False)
+    total = db.Column(db.Integer, nullable=False)
 
     account = db.relationship('Account', back_populates='orders')
-    item = db.relationship('Item', back_populates='orders')
-    
+    item = db.relationship('Item')

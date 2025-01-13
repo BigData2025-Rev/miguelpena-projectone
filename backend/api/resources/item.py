@@ -2,10 +2,10 @@ from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required
 
-from api.schemas import ItemSchema, ItemCategorySchema
+from api.schemas import ItemSchema, CategorySchema
 from extensions import db
 from auth.decorators import auth_role
-from models import Item, ItemCategory
+from models import Item, Category
 
 class ItemList(Resource):
     method_decorators = [auth_role(['user','admin']), jwt_required()]
@@ -25,10 +25,10 @@ class ItemList(Resource):
 
         return {'msg':'Item Created', 'item':schema.dump(item)}
     
-class ItemCategoryList(Resource):
-    method_decorators = [auth_role(['user', 'admin']), jwt_required()]
+class CategoryList(Resource):
+    method_decorators = [jwt_required()]
     def get(self):
-        categories = ItemCategory.query.all()
-        schema = ItemCategorySchema(many=True)
+        categories = Category.query.all()
+        schema = CategorySchema(many=True)
         return {'results': schema.dump(categories)}
     

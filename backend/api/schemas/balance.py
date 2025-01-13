@@ -5,6 +5,11 @@ from extensions import db
 from models.balances import Balance
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
+class AdminViewBalanceSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Balance
+        sqla_session = db.session
+
 class BalanceSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Balance

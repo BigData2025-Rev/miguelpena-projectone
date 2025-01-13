@@ -2,8 +2,14 @@ from marshmallow import validate, validates_schema, ValidationError
 from marshmallow.fields import String
 
 from extensions import db
-from models.accounts import Account, AccountDetail, AccountRole, Role
+from models.accounts import Account, Profile, AccountRole, Role
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+
+class AdminAccountViewSchema(SQLAlchemyAutoSchema):    
+    class Meta:
+        model = Account
+        exclude = ['_password']
+        sqla_session = db.session
 
 class AccountSchema(SQLAlchemyAutoSchema):
     username = String(required=True, validate=[validate.Length(min=3)])
@@ -30,9 +36,14 @@ class AccountCreateSchema(AccountSchema):
         ]
     )
 
-class AccountDetailSchema(SQLAlchemyAutoSchema):
+class AdminProfileSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = AccountDetail
+        model = Profile
+        sqla_session = db.session
+
+class ProfileSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Profile
         load_instance = True
         exclude = ['id', 'account_id']
         sqla_session = db.session
@@ -40,12 +51,9 @@ class AccountDetailSchema(SQLAlchemyAutoSchema):
 class RoleSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Role
-        load_instance = True
-        exclude = ['id']
         sqla_session = db.session
 
 class AccountRoleSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = AccountRole
-        load_instance = True
         sqla_session = db.session

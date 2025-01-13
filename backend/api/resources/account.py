@@ -1,37 +1,49 @@
 from flask import request, jsonify
 from flask_restful import Resource, abort
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from api.schemas import AccountSchema, AccountDetailSchema, AccountRoleSchema, RoleSchema
+from api.schemas import AccountSchema, AdminAccountViewSchema, ProfileSchema, AccountRoleSchema, RoleSchema
 from extensions import db
 from auth.decorators import auth_role
-from models import Account, AccountDetail, AccountRole, Role
+from models import Account, Profile, AccountRole, Role
 
 class AccountList(Resource):
     method_decorators = [auth_role('admin'), jwt_required()]
     def get(self):
         accounts = Account.query.all() #equivalent to running SELECT * FROM accounts;
-        schema = AccountSchema(many=True)
+        schema = AdminAccountViewSchema(many=True)
         return {'results': schema.dump(accounts)}
     
-class AccountDetailList(Resource):
+class ProfileList(Resource):
     method_decorators = [jwt_required()]
     def post(self):
-        schema = AccountDetailSchema()
+        schema = ProfileSchema()
         validated_data = schema.load(request.json)
-        account_detail = AccountDetail(**validated_data)
+        account_id = get_jwt_identity()
 
-        db.session.add(account_detail)
+        validated_data['account_id'] = account_id
+
+        profile = Profile(**validated_data)
+        
+        db.session.add(profile)
         db.session.commit()
 
-        return {'msg':'Account details were created.', 'account_detail': schema.dump(account_detail)}
+        return {'msg':'Profile was created.', 'profile': schema.dump(profile)}
     
-class AccountDetailResource(Resource):
-    method_decorators = [jwt_required()]
+class ProfileAdminResource(Resource):
+    method_decorators = [auth_role('admin'), jwt_required()]
     def get(self, account_id):
-        account_detail = AccountDetail.query.filter_by(account_id=account_id).first_or_404("Account does not have details associated with it.")
-        schema = AccountDetailSchema()
-        return {'account_detail':schema.dump(account_detail)}
+        profile = Profile.query.filter_by(account_id=account_id).first_or_404("Account does not have a profile associated with it.")
+        schema = AdminProfileSchema()
+        return {'profile': schema.dump(profile)}
+
+class ProfileResource(Resource):
+    method_decorators = [jwt_required()]
+    def get(self):
+        account_id = get_jwt_identity()
+        profile = Profile.query.filter_by(account_id=account_id).first_or_404("Account does not have a profile associated with it.")
+        schema = ProfileSchema()
+        return {'profile': schema.dump(profile)}
 
 class RoleList(Resource):
     method_decorators = [auth_role('admin'), jwt_required()]

@@ -7,18 +7,18 @@ from api.resources import *
 blueprint = Blueprint('api', __name__, url_prefix='/pokemart')
 api = Api(blueprint, errors=blueprint.errorhandler)
 
-api.add_resource(AccountList, '/accounts')
+api.add_resource(AccountList, '/users') # admin only
 api.add_resource(BalanceList, '/balance')
 
 # api.add_resource(AccountResource, '/accounts/<username>')
 
 """
     TODO:
-        - endpoints for orders
-        - endpoints for items
-        - endpoints balance
-        - endpoints for account details
-        - endpoints for roles
+        - add the following endpoints:
+            - /users -> methods = ['GET', 'DELETE']
+            - /user_roles -> methods = ['POST', 'DELETE']
+            - /balance -> methods = ['GET', 'PUT']
+            - /
 """
 
 @blueprint.errorhandler(ValidationError)

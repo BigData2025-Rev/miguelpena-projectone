@@ -5,14 +5,7 @@ class Account(db.Model):
     """
         This is the relational model for the user object, 
         should handle database operations with SQLAlchemy's simplified query system, 
-        which is similar to Spring.
-        
-        TODO:
-            - Make sure that the frontend hashes the password before passing it to the api.
-            - Make sure that this model is updated as more models are added,
-                for example, user_detail_id should be a foreignkey that references userdetails.id, 
-                which consists of columns id, user_id, first_name, last_name, age
-            - Make sure to research one-to-one, one-to-many, and many-to-many relationships for sqlalchemy. 
+        which is similar to Spring Boot's JPARepository which simplified ORM and DAOs. 
     """
     __tablename__ = 'accounts'
 
@@ -20,7 +13,7 @@ class Account(db.Model):
     username = db.Column(db.String(255), unique=True, nullable=False)
     _password = db.Column("password", db.String(255), nullable=False)
     
-    account_detail = db.relationship('AccountDetail', back_populates='account', uselist=False, passive_deletes=True)
+    profile = db.relationship('Profile', back_populates='account', uselist=False, passive_deletes=True)
     roles = db.relationship('Role', secondary='account_roles', back_populates='accounts', passive_deletes=True)
     balance = db.relationship('Balance', back_populates='account', uselist=False, passive_deletes=True)
     orders = db.relationship('Order', back_populates='account', lazy=True)
@@ -42,18 +35,18 @@ class Account(db.Model):
     def password(self, value):
         self._password = pwd_context.hash(value)
 
-class AccountDetail(db.Model):
-    __tablename__ = 'account_details'
+class Profile(db.Model):
+    __tablename__ = 'profiles'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(255), nullable=False)
     last_name = db.Column(db.String(255), nullable=False)
     age = db.Column(db.Integer)
     favorite_pokemon = db.Column(db.String(64))
-    
+
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id', ondelete='CASCADE'), nullable=False, index=True)
     
-    account = db.relationship('Account', back_populates='account_detail', uselist=False, passive_deletes=True)
+    account = db.relationship('Account', back_populates='profile', uselist=False, passive_deletes=True)
 
 class Role(db.Model):
     __tablename__ = 'roles'
