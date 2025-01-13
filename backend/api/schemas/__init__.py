@@ -1,19 +1,22 @@
 from api.schemas.account import AdminAccountViewSchema, AccountCreateSchema, AccountSchema, ProfileSchema, AccountRoleSchema, RoleSchema
 from api.schemas.balance import AdminViewBalanceSchema, BalanceSchema, BalanceCreateSchema
-from api.schemas.item import ItemSchema, CategorySchema
+from api.schemas.item import AdminItemSchema, ItemSchema
+from api.schemas.category import CategorySchema, CategoryWithItemsSchema
 from api.schemas.order import OrderSchema
 
 __all__ = [
     "AdminAccountViewSchema",
-    "AccountCreateSchema", 
+    "AccountCreateSchema",
     "AccountSchema",
-    "ProfileSchema", 
-    "RoleSchema",
+    "ProfileSchema",
     "AccountRoleSchema",
+    "RoleSchema",
     "AdminViewBalanceSchema",
     "BalanceSchema",
     "BalanceCreateSchema",
+    "AdminItemSchema",
     "ItemSchema",
     "CategorySchema",
-    "OrderSchema" 
+    "CategoryWithItemsSchema",
+    "OrderSchema"
 ]

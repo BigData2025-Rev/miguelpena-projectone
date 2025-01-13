@@ -8,7 +8,6 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 class AdminOrderViewSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Order
-
         sqla_session = db.session
 
 class OrderSchema(SQLAlchemyAutoSchema):

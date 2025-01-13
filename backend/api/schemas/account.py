@@ -1,5 +1,5 @@
-from marshmallow import fields, validate, validates_schema, ValidationError
-from marshmallow.fields import String
+from marshmallow import validate, validates_schema, ValidationError
+from marshmallow.fields import String, Nested
 
 from extensions import db
 from schemas import AdminViewBalanceSchema, BalanceSchema
@@ -13,8 +13,8 @@ class AdminProfileSchema(SQLAlchemyAutoSchema):
         include_fk = True
 
 class AdminAccountViewSchema(SQLAlchemyAutoSchema):
-    profile = fields.Nested(AdminProfileSchema, allow_none=True)
-    balance = fields.Nested(AdminViewBalanceSchema, allow_none=True)
+    profile = Nested(AdminProfileSchema, allow_none=True)
+    balance = Nested(AdminViewBalanceSchema, allow_none=True)
 
     class Meta:
         model = Account
@@ -32,9 +32,9 @@ class ProfileSchema(SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 class AccountSchema(SQLAlchemyAutoSchema):
-    profile = fields.Nested(ProfileSchema, allow_none=True)
-    balance = fields.Nested(BalanceSchema, allow_none=True)
-    
+    profile = Nested(ProfileSchema, allow_none=True)
+    balance = Nested(BalanceSchema, allow_none=True)
+
     username = String(required=True, validate=[validate.Length(min=3)])
 
     @validates_schema
