@@ -7,8 +7,9 @@ from api.resources import *
 blueprint = Blueprint('api', __name__, url_prefix='/pokemart')
 api = Api(blueprint, errors=blueprint.errorhandler)
 
-api.add_resource(AccountList, '/users') # admin only
-api.add_resource(BalanceList, '/balance')
+api.add_resource(AccountList, '/users') # admin only -> GET
+api.add_resource(BalanceList, '/balances') #admin only -> GET, login-required -> POST
+api.add_resource(BalanceResource, '/balance')
 
 # api.add_resource(AccountResource, '/accounts/<username>')
 

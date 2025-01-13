@@ -1,17 +1,40 @@
-from marshmallow import validate, validates_schema, ValidationError
+from marshmallow import fields, validate, validates_schema, ValidationError
 from marshmallow.fields import String
 
 from extensions import db
-from models.accounts import Account, Profile, AccountRole, Role
+from schemas import AdminViewBalanceSchema, BalanceSchema
+from models import Account, Profile, AccountRole, Role
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-class AdminAccountViewSchema(SQLAlchemyAutoSchema):    
+class AdminProfileSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Profile
+        sqla_session = db.session
+        include_fk = True
+
+class AdminAccountViewSchema(SQLAlchemyAutoSchema):
+    profile = fields.Nested(AdminProfileSchema, allow_none=True)
+    balance = fields.Nested(AdminViewBalanceSchema, allow_none=True)
+
     class Meta:
         model = Account
         exclude = ['_password']
         sqla_session = db.session
+        load_instance = True
+        include_relationships = True
+
+class ProfileSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Profile
+        load_instance = True
+        include_fk = False
+        exclude = ['id', 'account_id']
+        sqla_session = db.session
 
 class AccountSchema(SQLAlchemyAutoSchema):
+    profile = fields.Nested(ProfileSchema, allow_none=True)
+    balance = fields.Nested(BalanceSchema, allow_none=True)
+    
     username = String(required=True, validate=[validate.Length(min=3)])
 
     @validates_schema
@@ -26,6 +49,7 @@ class AccountSchema(SQLAlchemyAutoSchema):
         load_instance = True
         exclude = ['id', '_password']
         sqla_session = db.session
+        include_relationships = True
 
 class AccountCreateSchema(AccountSchema):
     password = String(
@@ -36,17 +60,8 @@ class AccountCreateSchema(AccountSchema):
         ]
     )
 
-class AdminProfileSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = Profile
-        sqla_session = db.session
 
-class ProfileSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = Profile
-        load_instance = True
-        exclude = ['id', 'account_id']
-        sqla_session = db.session
+
 
 class RoleSchema(SQLAlchemyAutoSchema):
     class Meta:
