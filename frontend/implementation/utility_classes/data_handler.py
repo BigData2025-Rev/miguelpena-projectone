@@ -21,7 +21,6 @@ class DataHandler(IData):
             return 
         
         self.data.to_json(self.filename, orient='split', compression='infer')
-        self.data.
     
     def post(self):
         headers = {'Authorization': self.access_token}

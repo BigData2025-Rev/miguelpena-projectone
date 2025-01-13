@@ -44,9 +44,40 @@ def generate_statement_for_categories(data: pd.DataFrame) -> str:
 
     return query
 
+def generate_statement_for_items(data: pd.DataFrame) -> str:
+    updated_data = data.drop(columns=['sprite', 'effect', 'category'])
+    query = "INSERT INTO Items (name, cost) VALUES "
+    length = updated_data.shape[0]
+    for index, row in updated_data.iterrows():
+        query = query + f"(\'{row['name']}\', {row['cost']})"
+        if index == length - 1:
+            query += ';\n'
+        else:
+            query += ',\n\t'
+
+    return query
+    # data.drop('category')
+
+def generate_statement_for_item_category_relational(data: pd.DataFrame) -> str:
+    category_ids = {value:index+1 for index, value in enumerate(data['category'].unique().tolist())}
+    item_ids = {value:index+1 for index, value in enumerate(data['name'].tolist())}
+    updated_data = data.replace(category_ids).replace(item_ids).drop(columns=['cost', 'sprite', 'effect'])
+    query = "INSERT INTO Items_Category_Relational (item_id, item_category_id) VALUES "
+    length = updated_data.shape[0]
+    for index, row in updated_data.iterrows():
+        query = query + f"({row['name']}, {row['category']})"
+        if index == length - 1:
+            query += ';\n'
+        else:
+            query += ',\n\t'
+
+    return query
+
 def create_seed_file(data: pd.DataFrame) -> None:
     queries = []
     queries.append(generate_statement_for_categories(data))
+    queries.append(generate_statement_for_items(data))
+    queries.append(generate_statement_for_item_category_relational(data))
 
     with open('backend/seed.sql', 'w') as file:
         file.writelines(queries)
