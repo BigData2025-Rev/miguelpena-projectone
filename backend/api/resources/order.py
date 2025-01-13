@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from api.schemas import AdminOrderViewSchema, OrderSchema, CreateOrderSchema
+from api.schemas.order import AdminOrderViewSchema, OrderSchema, CreateOrderSchema
 from extensions import db
 from auth.decorators import auth_role
 from models import Order, Balance

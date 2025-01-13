@@ -3,12 +3,14 @@ from marshmallow.fields import Integer, Nested
 
 from extensions import db
 from models import Order, Item
-from schemas import AdminItemSchema, ItemSchema, AdminAccountViewSchema, AccountSchema
+import api.schemas.item as sub_item #AdminItemSchema, ItemSchema, AdminAccountViewSchema, AccountSchema
+import api.schemas.account as sub_account
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 class AdminOrderViewSchema(SQLAlchemyAutoSchema):
-    item = Nested(AdminItemSchema)
-    account = Nested(AdminAccountViewSchema)
+    
+    item = Nested(sub_item.AdminItemSchema, allow_none=True)
+    account = Nested(sub_account.AdminAccountViewSchema, allow_none=True)
     
     class Meta:
         model = Order
@@ -16,8 +18,8 @@ class AdminOrderViewSchema(SQLAlchemyAutoSchema):
         include_relationships = True
 
 class OrderSchema(SQLAlchemyAutoSchema):
-    item = Nested(ItemSchema)
-    account = Nested(AccountSchema)
+    item = Nested(sub_item.ItemSchema, allow_none=True)
+    account = Nested(sub_account.AccountSchema, allow_none=True)
 
     class Meta:
         model = Order

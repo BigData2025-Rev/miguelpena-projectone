@@ -2,12 +2,10 @@ from marshmallow import validate, validates_schema, ValidationError
 from marshmallow.fields import String, Nested
 
 from extensions import db
-from models import Item
-from schemas import CategorySchema
+from models.items import Item
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 class ItemSchema(SQLAlchemyAutoSchema):
-    category = Nested(CategorySchema)
 
     class Meta:
         model = Item
@@ -17,7 +15,6 @@ class ItemSchema(SQLAlchemyAutoSchema):
         include_relationships = True
 
 class AdminItemSchema(SQLAlchemyAutoSchema):
-    category = Nested(CategorySchema)
 
     class Meta:
         model = Item

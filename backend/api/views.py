@@ -25,7 +25,7 @@ api.add_resource(ItemList, '/store')
 api.add_resource(AdminItemList, '/store/inventory') #admin only -> GET, POST
 api.add_resource(AdminItemResource, '/store/inventory/<int:item_id>') #admin only -> PUT and DELETE
 
-api.add_resource(ItemResource, '/store/<str:category>')
+api.add_resource(ItemResource, '/store/<category>')
 
 api.add_resource(CreateOrderResource, '/store/checkout')
 api.add_resource(OrderList, '/history')

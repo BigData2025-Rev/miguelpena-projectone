@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from api.schemas import AdminViewBalanceSchema, BalanceSchema, BalanceCreateSchema
+from api.schemas.balance import AdminViewBalanceSchema, BalanceSchema, BalanceCreateSchema
 from extensions import db
 from auth.decorators import auth_role
 from models import Balance
@@ -17,12 +17,10 @@ class BalanceList(Resource):
     method_decorators = [jwt_required()]
     def post(self):
         account_id = get_jwt_identity()
-        schema = BalanceSchema()
-        validated_data = schema.load(request.json)
-
-        validated_data['account_id'] = account_id
+        schema = BalanceCreateSchema(context={'account_id': account_id})
+        balance = schema.load(request.json)
         
-        balance = Balance(**validated_data)
+        # balance = Balance(**validated_data)
 
         db.session.add(balance)
         db.session.commit() #adds ACID properties to SQL database.

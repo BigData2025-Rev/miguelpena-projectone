@@ -2,7 +2,7 @@ from flask import request, jsonify
 from flask_restful import Resource, abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from api.schemas import AccountSchema, AdminAccountViewSchema, ProfileSchema, AccountRoleSchema, RoleSchema
+from api.schemas.account import AdminAccountViewSchema, ProfileSchema, AccountRoleSchema
 from extensions import db
 from auth.decorators import auth_role
 from models import Account, Profile, AccountRole, Role
@@ -37,12 +37,12 @@ class ProfileResource(Resource):
     method_decorators = [jwt_required()]
     def post(self):
         schema = ProfileSchema()
-        validated_data = schema.load(request.json)
+        profile = schema.load(request.json)
         account_id = get_jwt_identity()
 
-        validated_data['account_id'] = account_id
+        profile.account_id = account_id
 
-        profile = Profile(**validated_data)
+        # profile = Profile(**validated_data)
         
         db.session.add(profile)
         db.session.commit()

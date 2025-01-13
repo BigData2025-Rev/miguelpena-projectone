@@ -87,7 +87,7 @@ def check_if_token_revoked(jwt_headers, jwt_payload):
 
 @jwt.user_lookup_loader
 def load_account(jwt_headers, jwt_payload):
-    account_id = jwt_payload(app.config.get('JWT_IDENTITY_CLAIM'))
+    account_id = jwt_payload[app.config.get('JWT_IDENTITY_CLAIM')]
     return Account.query.get(account_id)
 
 

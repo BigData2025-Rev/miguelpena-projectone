@@ -1,5 +1,4 @@
 from extensions import db
-from models import Category
 
 class Item(db.Model):
     __tablename__ = 'items'

@@ -2,7 +2,8 @@ from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required
 
-from api.schemas import AdminItemSchema, ItemSchema, CategorySchema, CategoryWithItemsSchema
+from api.schemas.item import AdminItemSchema, ItemSchema
+from api.schemas.category import CategorySchema, CategoryWithItemsSchema
 from extensions import db
 from auth.decorators import auth_role
 from models import Item, Category

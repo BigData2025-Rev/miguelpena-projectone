@@ -4,7 +4,7 @@ from api.resources.item import ItemList, ItemResource, CategoryList, AdminItemLi
 from api.resources.order import OrderList, OrderResource, AdminOrderList, CreateOrderResource
 __all__ = [
     'AccountList', 'AccountResource', 'ProfileResource', 'AccountRoleList', 'AccountRoleResource',
-    'BalanceList', 'BalanceResource',
+    'BalanceList', 'BalanceResource', 
     'ItemList', 'ItemResource', 'CategoryList', 'AdminItemList', 'AdminItemResource',
     'OrderList', 'OrderResource', 'AdminOrderList', 'CreateOrderResource'
 ]
