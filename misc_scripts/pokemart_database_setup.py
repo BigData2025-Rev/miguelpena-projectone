@@ -46,10 +46,13 @@ def generate_statement_for_categories(data: pd.DataFrame) -> str:
 
 def generate_statement_for_items(data: pd.DataFrame) -> str:
     updated_data = data.drop(columns=['sprite', 'effect', 'category'])
+    copied_data = updated_data.copy(deep=True)
+    copied_data.reset_index(drop=True, inplace=True)
     query = "INSERT INTO Items (name, cost) VALUES "
-    length = updated_data.shape[0]
-    for index, row in updated_data.iterrows():
-        query = query + f"(\'{row['name']}\', {row['cost']})"
+    length = copied_data.shape[0]
+    for index, row in copied_data.iterrows():
+        fixed_name = str(row['name']).replace("'", '\'').replace('\u00e9', '\xE9')
+        query = query + f"(\'{fixed_name}\', {row['cost']})"
         if index == length - 1:
             query += ';\n'
         else:
@@ -62,9 +65,11 @@ def generate_statement_for_item_category_relational(data: pd.DataFrame) -> str:
     category_ids = {value:index+1 for index, value in enumerate(data['category'].unique().tolist())}
     item_ids = {value:index+1 for index, value in enumerate(data['name'].tolist())}
     updated_data = data.replace(category_ids).replace(item_ids).drop(columns=['cost', 'sprite', 'effect'])
-    query = "INSERT INTO Items_Category_Relational (item_id, item_category_id) VALUES "
-    length = updated_data.shape[0]
-    for index, row in updated_data.iterrows():
+    copied_data = updated_data.copy()
+    copied_data.reset_index(drop=True, inplace=True)
+    query = "INSERT INTO Item_Category_Relational (item_id, item_category_id) VALUES "
+    length = copied_data.shape[0]
+    for index, row in copied_data.iterrows():
         query = query + f"({row['name']}, {row['category']})"
         if index == length - 1:
             query += ';\n'

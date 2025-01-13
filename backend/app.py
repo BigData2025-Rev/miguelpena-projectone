@@ -9,6 +9,8 @@ app.register_blueprint(blueprint=blueprint)
 app.register_blueprint(blueprint=auth_blueprint)
 app.config.from_object('config')
 
+print(app.config.get('SQLALCHEMY_DATABASE_URI'))
+
 db.init_app(app)
 ma.init_app(app)
 migrate.init_app(app, db)

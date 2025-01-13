@@ -5,9 +5,12 @@ USE PokeMart;
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS Items;
 DROP TABLE IF EXISTS Item_Categories;
+DROP TABLE IF EXISTS Item_Category_Relational;
 DROP TABLE IF EXISTS Balances;
-DROP TABLE IF EXISTS Accounts;
 DROP TABLE IF EXISTS Account_Details;
+DROP TABLE IF EXISTS Account_Roles;
+DROP TABLE IF EXISTS Accounts;
+
 
 CREATE TABLE Account_Details(
 	account_details_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -52,4 +55,28 @@ CREATE TABLE Orders(
     FOREIGN KEY (order_item_id) REFERENCES Items (item_id) ON DELETE CASCADE
 );
 
+INSERT INTO roles(name, slug) VALUES ('Admin', 'admin');
+SELECT * FROM roles;
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE ROLES;
+SET FOREIGN_KEY_CHECKS = 1;
+SELECT * FROM roles;
+DELETE FROM ROLES;
+
 SELECT * FROM item_categories;
+SELECT * FROM accounts;
+TRUNCATE TABLE accounts;
+SELECT * FROM account_details;
+SELECT * FROM items;
+SELECT * FROM item_category_relational;
+
+DELETE FROM account_details;
+DELETE FROM account_roles;
+DELETE FROM balances;
+DELETE FROM items;
+DELETE FROM item_categories;
+DELETE FROM item_category_relational;
+
+ALTER TABLE items AUTO_INCREMENT = 1;
+ALTER TABLE item_categories AUTO_INCREMENT = 1;
